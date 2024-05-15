@@ -24,7 +24,7 @@ When there is a change in the **`schema.prisma`** file run:
 2. `npx prisma format` To format your Prisma schema
 3. `npx prisma migrate dev --name <Migration_name>` To create a new migration and apply it to your database
 
-## DB neccessary data
+## DB necessary data
 The following data is required to communicate with the frontend and should not be modified
 
 **user_role**
