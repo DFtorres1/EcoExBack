@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "communities" (
-    "communityId" BIGSERIAL NOT NULL,
+    "communityId" SERIAL NOT NULL,
     "communityName" TEXT NOT NULL,
     "description" TEXT NOT NULL,
 
@@ -9,27 +9,27 @@ CREATE TABLE "communities" (
 
 -- CreateTable
 CREATE TABLE "communitiesResources" (
-    "commResId" BIGSERIAL NOT NULL,
-    "resourceId" BIGINT NOT NULL,
-    "communityId" BIGINT NOT NULL,
+    "commResId" SERIAL NOT NULL,
+    "resourceId" INTEGER NOT NULL,
+    "communityId" INTEGER NOT NULL,
 
     CONSTRAINT "communitiesResources_pkey" PRIMARY KEY ("commResId")
 );
 
 -- CreateTable
 CREATE TABLE "exchangedResources" (
-    "exResId" BIGSERIAL NOT NULL,
-    "resourceId" BIGINT NOT NULL,
-    "exchangeId" BIGINT NOT NULL,
+    "exResId" SERIAL NOT NULL,
+    "resourceId" INTEGER NOT NULL,
+    "exchangeId" INTEGER NOT NULL,
 
     CONSTRAINT "exchangedResources_pkey" PRIMARY KEY ("exResId")
 );
 
 -- CreateTable
 CREATE TABLE "exchanges" (
-    "exchangeId" BIGSERIAL NOT NULL,
-    "offeredResource" BIGINT NOT NULL,
-    "desiredResource" BIGINT NOT NULL,
+    "exchangeId" SERIAL NOT NULL,
+    "offeredResource" INTEGER NOT NULL,
+    "desiredResource" INTEGER NOT NULL,
     "exchangeDate" TIMESTAMPTZ(6) NOT NULL,
 
     CONSTRAINT "exchanges_pkey" PRIMARY KEY ("exchangeId")
@@ -37,26 +37,26 @@ CREATE TABLE "exchanges" (
 
 -- CreateTable
 CREATE TABLE "favorites" (
-    "favoriteId" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
-    "resourceId" BIGINT NOT NULL,
+    "favoriteId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "resourceId" INTEGER NOT NULL,
 
     CONSTRAINT "favorites_pkey" PRIMARY KEY ("favoriteId")
 );
 
 -- CreateTable
 CREATE TABLE "followers" (
-    "followId" BIGSERIAL NOT NULL,
-    "followerUserId" BIGINT NOT NULL,
-    "followedUserId" BIGINT NOT NULL,
+    "followId" SERIAL NOT NULL,
+    "followerUserId" INTEGER NOT NULL,
+    "followedUserId" INTEGER NOT NULL,
 
     CONSTRAINT "followers_pkey" PRIMARY KEY ("followId")
 );
 
 -- CreateTable
 CREATE TABLE "images" (
-    "imageId" BIGSERIAL NOT NULL,
-    "resoruceId" BIGINT NOT NULL,
+    "imageId" SERIAL NOT NULL,
+    "resoruceId" INTEGER NOT NULL,
     "imgage" BYTEA NOT NULL,
 
     CONSTRAINT "images_pkey" PRIMARY KEY ("imageId")
@@ -64,16 +64,16 @@ CREATE TABLE "images" (
 
 -- CreateTable
 CREATE TABLE "locationResources" (
-    "locResId" BIGSERIAL NOT NULL,
-    "resourceId" BIGINT NOT NULL,
-    "locationId" BIGINT NOT NULL,
+    "locResId" SERIAL NOT NULL,
+    "resourceId" INTEGER NOT NULL,
+    "locationId" INTEGER NOT NULL,
 
     CONSTRAINT "locationResources_pkey" PRIMARY KEY ("locResId")
 );
 
 -- CreateTable
 CREATE TABLE "locations" (
-    "locationId" BIGSERIAL NOT NULL,
+    "locationId" SERIAL NOT NULL,
     "locationName" TEXT NOT NULL,
     "latitude" DECIMAL NOT NULL,
     "longitude" DECIMAL NOT NULL,
@@ -83,9 +83,9 @@ CREATE TABLE "locations" (
 
 -- CreateTable
 CREATE TABLE "messages" (
-    "messageId" BIGSERIAL NOT NULL,
-    "senderId" BIGINT NOT NULL,
-    "receiverId" BIGINT NOT NULL,
+    "messageId" SERIAL NOT NULL,
+    "senderId" INTEGER NOT NULL,
+    "receiverId" INTEGER NOT NULL,
     "content" TEXT NOT NULL,
     "sentDate" TIMESTAMPTZ(6) NOT NULL,
 
@@ -94,8 +94,8 @@ CREATE TABLE "messages" (
 
 -- CreateTable
 CREATE TABLE "notifications" (
-    "notificationId" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
+    "notificationId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
     "message" TEXT NOT NULL,
     "sentDate" TIMESTAMPTZ(6) NOT NULL,
     "read" BOOLEAN NOT NULL,
@@ -105,9 +105,9 @@ CREATE TABLE "notifications" (
 
 -- CreateTable
 CREATE TABLE "reports" (
-    "reportId" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
-    "resourceId" BIGINT NOT NULL,
+    "reportId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "resourceId" INTEGER NOT NULL,
     "reason" TEXT NOT NULL,
     "description" TEXT NOT NULL,
 
@@ -116,8 +116,8 @@ CREATE TABLE "reports" (
 
 -- CreateTable
 CREATE TABLE "resources" (
-    "resourceId" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
+    "resourceId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
     "resourceName" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "category" TEXT NOT NULL,
@@ -129,9 +129,9 @@ CREATE TABLE "resources" (
 
 -- CreateTable
 CREATE TABLE "review" (
-    "reviewId" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
-    "exchangeId" BIGINT NOT NULL,
+    "reviewId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "exchangeId" INTEGER NOT NULL,
     "stars" INTEGER NOT NULL,
     "comment" TEXT,
 
@@ -140,25 +140,25 @@ CREATE TABLE "review" (
 
 -- CreateTable
 CREATE TABLE "roles_by_user" (
-    "rbu_id" BIGSERIAL NOT NULL,
-    "id" BIGINT NOT NULL,
-    "user_role_id" BIGINT NOT NULL,
+    "rbu_id" SERIAL NOT NULL,
+    "id" INTEGER NOT NULL,
+    "user_role_id" INTEGER NOT NULL,
 
     CONSTRAINT "rolesByUser_pkey" PRIMARY KEY ("rbu_id")
 );
 
 -- CreateTable
 CREATE TABLE "tagResources" (
-    "tagResId" BIGSERIAL NOT NULL,
-    "tagId" BIGINT NOT NULL,
-    "resourceId" BIGINT NOT NULL,
+    "tagResId" SERIAL NOT NULL,
+    "tagId" INTEGER NOT NULL,
+    "resourceId" INTEGER NOT NULL,
 
     CONSTRAINT "tagResources_pkey" PRIMARY KEY ("tagResId")
 );
 
 -- CreateTable
 CREATE TABLE "tags" (
-    "tagId" BIGSERIAL NOT NULL,
+    "tagId" SERIAL NOT NULL,
     "tagName" TEXT NOT NULL,
 
     CONSTRAINT "tags_pkey" PRIMARY KEY ("tagId")
@@ -166,16 +166,16 @@ CREATE TABLE "tags" (
 
 -- CreateTable
 CREATE TABLE "userCommunity" (
-    "userCommunityId" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
-    "communityId" BIGINT NOT NULL,
+    "userCommunityId" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "communityId" INTEGER NOT NULL,
 
     CONSTRAINT "userCommunity_pkey" PRIMARY KEY ("userCommunityId")
 );
 
 -- CreateTable
 CREATE TABLE "user_role" (
-    "user_role_id" BIGSERIAL NOT NULL,
+    "user_role_id" SERIAL NOT NULL,
     "role_name" TEXT NOT NULL,
 
     CONSTRAINT "userRole_pkey" PRIMARY KEY ("user_role_id")
@@ -183,29 +183,29 @@ CREATE TABLE "user_role" (
 
 -- CreateTable
 CREATE TABLE "Post" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "title" VARCHAR(255) NOT NULL,
     "content" TEXT,
     "published" BOOLEAN NOT NULL DEFAULT false,
-    "authorId" BIGINT NOT NULL,
+    "authorId" INTEGER NOT NULL,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Profile" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "bio" TEXT,
-    "userId" BIGINT NOT NULL,
+    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,

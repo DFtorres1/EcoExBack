@@ -8,7 +8,7 @@ datasource db {
 }
 
 model communities {
-  communityId          BigInt                 @id @default(autoincrement())
+  communityId          Int                 @id @default(autoincrement())
   communityName        String
   description          String
   communitiesResources communitiesResources[]
@@ -16,25 +16,25 @@ model communities {
 }
 
 model communitiesResources {
-  commResId   BigInt      @id @default(autoincrement())
-  resourceId  BigInt
-  communityId BigInt
+  commResId   Int      @id @default(autoincrement())
+  resourceId  Int
+  communityId Int
   communities communities @relation(fields: [communityId], references: [communityId], onDelete: NoAction, onUpdate: NoAction)
   resources   resources   @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model exchangedResources {
-  exResId    BigInt    @id @default(autoincrement())
-  resourceId BigInt
-  exchangeId BigInt
+  exResId    Int    @id @default(autoincrement())
+  resourceId Int
+  exchangeId Int
   exchanges  exchanges @relation(fields: [exchangeId], references: [exchangeId], onDelete: NoAction, onUpdate: NoAction)
   resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model exchanges {
-  exchangeId                                     BigInt               @id @default(autoincrement())
-  offeredResource                                BigInt
-  desiredResource                                BigInt
+  exchangeId                                     Int               @id @default(autoincrement())
+  offeredResource                                Int
+  desiredResource                                Int
   exchangeDate                                   DateTime             @db.Timestamptz(6)
   exchangedResources                             exchangedResources[]
   resources_exchanges_desiredResourceToresources resources            @relation("exchanges_desiredResourceToresources", fields: [desiredResource], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
@@ -43,38 +43,38 @@ model exchanges {
 }
 
 model favorites {
-  favoriteId BigInt    @id @default(autoincrement())
-  userId     BigInt
-  resourceId BigInt
+  favoriteId Int    @id @default(autoincrement())
+  userId     Int
+  resourceId Int
   resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
   users      users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model followers {
-  followId                              BigInt @id @default(autoincrement())
-  followerUserId                        BigInt
-  followedUserId                        BigInt
+  followId                              Int @id @default(autoincrement())
+  followerUserId                        Int
+  followedUserId                        Int
   users_followers_followedUserIdTousers users  @relation("followers_followedUserIdTousers", fields: [followedUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users_followers_followerUserIdTousers users  @relation("followers_followerUserIdTousers", fields: [followerUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model images {
-  imageId    BigInt    @id @default(autoincrement())
-  resoruceId BigInt
+  imageId    Int    @id @default(autoincrement())
+  resoruceId Int
   imgage     Bytes
   resources  resources @relation(fields: [resoruceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model locationResources {
-  locResId   BigInt    @id @default(autoincrement())
-  resourceId BigInt
-  locationId BigInt
+  locResId   Int    @id @default(autoincrement())
+  resourceId Int
+  locationId Int
   locations  locations @relation(fields: [locationId], references: [locationId], onDelete: NoAction, onUpdate: NoAction)
   resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model locations {
-  locationId        BigInt              @id @default(autoincrement())
+  locationId        Int              @id @default(autoincrement())
   locationName      String
   latitude          Decimal             @db.Decimal
   longitude         Decimal             @db.Decimal
@@ -82,9 +82,9 @@ model locations {
 }
 
 model messages {
-  messageId                        BigInt   @id @default(autoincrement())
-  senderId                         BigInt
-  receiverId                       BigInt
+  messageId                        Int   @id @default(autoincrement())
+  senderId                         Int
+  receiverId                       Int
   content                          String
   sentDate                         DateTime @db.Timestamptz(6)
   users_messages_receiverIdTousers users    @relation("messages_receiverIdTousers", fields: [receiverId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -92,8 +92,8 @@ model messages {
 }
 
 model notifications {
-  notificationId BigInt   @id @default(autoincrement())
-  userId         BigInt
+  notificationId Int   @id @default(autoincrement())
+  userId         Int
   message        String
   sentDate       DateTime @db.Timestamptz(6)
   read           Boolean
@@ -101,9 +101,9 @@ model notifications {
 }
 
 model reports {
-  reportId    BigInt    @id @default(autoincrement())
-  userId      BigInt
-  resourceId  BigInt
+  reportId    Int    @id @default(autoincrement())
+  userId      Int
+  resourceId  Int
   reason      String
   description String
   resources   resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
@@ -111,8 +111,8 @@ model reports {
 }
 
 model resources {
-  resourceId                                     BigInt                 @id @default(autoincrement())
-  userId                                         BigInt
+  resourceId                                     Int                 @id @default(autoincrement())
+  userId                                         Int
   resourceName                                   String
   description                                    String
   category                                       String
@@ -131,9 +131,9 @@ model resources {
 }
 
 model review {
-  reviewId   BigInt    @id @default(autoincrement())
-  userId     BigInt
-  exchangeId BigInt
+  reviewId   Int    @id @default(autoincrement())
+  userId     Int
+  exchangeId Int
   stars      Int
   comment    String?
   exchanges  exchanges @relation(fields: [exchangeId], references: [exchangeId], onDelete: NoAction, onUpdate: NoAction)
@@ -141,60 +141,60 @@ model review {
 }
 
 model roles_by_user {
-  rbu_id       BigInt    @id(map: "rolesByUser_pkey") @default(autoincrement())
-  id      BigInt
-  user_role_id BigInt
+  rbu_id       Int    @id(map: "rolesByUser_pkey") @default(autoincrement())
+  id      Int
+  user_role_id Int
   users        users     @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rolesByUser_userId_fkey")
   user_role    user_role @relation(fields: [user_role_id], references: [user_role_id], onDelete: NoAction, onUpdate: NoAction, map: "rolesByUser_userRoleId_fkey")
 }
 
 model tagResources {
-  tagResId   BigInt    @id @default(autoincrement())
-  tagId      BigInt
-  resourceId BigInt
+  tagResId   Int    @id @default(autoincrement())
+  tagId      Int
+  resourceId Int
   resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
   tags       tags      @relation(fields: [tagId], references: [tagId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model tags {
-  tagId        BigInt         @id @default(autoincrement())
+  tagId        Int         @id @default(autoincrement())
   tagName      String
   tagResources tagResources[]
 }
 
 model userCommunity {
-  userCommunityId BigInt      @id @default(autoincrement())
-  userId          BigInt
-  communityId     BigInt
+  userCommunityId Int      @id @default(autoincrement())
+  userId          Int
+  communityId     Int
   communities     communities @relation(fields: [communityId], references: [communityId], onDelete: NoAction, onUpdate: NoAction)
   users           users       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model user_role {
-  user_role_id  BigInt          @id(map: "userRole_pkey") @default(autoincrement())
+  user_role_id  Int          @id(map: "userRole_pkey") @default(autoincrement())
   role_name     String
   roles_by_user roles_by_user[]
 }
 
 model Post {
-  id        BigInt      @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String   @db.VarChar(255)
   content   String?
   published Boolean  @default(false)
   author    users     @relation(fields: [authorId], references: [id])
-  authorId  BigInt
+  authorId  Int
 }
 
 model Profile {
-  id     BigInt     @id @default(autoincrement())
+  id     Int     @id @default(autoincrement())
   bio    String?
   user   users    @relation(fields: [userId], references: [id])
-  userId BigInt     @unique
+  userId Int     @unique
 }
 model users {
-  id                                        BigInt          @id(map: "user_pkey") @default(autoincrement())
+  id                                        Int          @id(map: "user_pkey") @default(autoincrement())
   name                                      String
   email                                     String
   username                                  String
