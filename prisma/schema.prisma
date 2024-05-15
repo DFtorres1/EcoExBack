@@ -110,6 +110,14 @@ model reports {
   users       users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
+model cart {
+  cartId     Int       @id @default(autoincrement())
+  userId     Int
+  resourceId Int
+  users      users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
+}
+
 model resources {
   resourceId                                     Int                 @id @default(autoincrement())
   userId                                         Int
@@ -128,6 +136,7 @@ model resources {
   reports                                        reports[]
   users                                          users                  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tagResources                                   tagResources[]
+  cart                                           cart[]
 }
 
 model review {
@@ -213,4 +222,5 @@ model users {
   review                                    review[]
   roles_by_user                             roles_by_user[]
   userCommunity                             userCommunity[]
+  cart                                      cart []
 }
