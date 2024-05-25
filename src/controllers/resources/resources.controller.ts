@@ -20,8 +20,6 @@ export const createResource = async (req: Request, res: Response) => {
       },
     });
 
-    console.log(newResource);
-
     // if (resourceImages.length <= 0) {
     //   res.status(406).json({ error: "Request should have at least one image" });
     // }
