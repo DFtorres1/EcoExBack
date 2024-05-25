@@ -1,9 +1,9 @@
-import { roles_by_user, user_role, users } from "@prisma/client";
+import { user_role, users } from "@prisma/client";
 import { Request, Response } from "express";
 import { prismaInstance } from "../..";
 import jwt from "jsonwebtoken";
 
-const authenticate = async (req: Request, res: Response) => {
+export const authenticate = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   try {
@@ -18,7 +18,7 @@ const authenticate = async (req: Request, res: Response) => {
     });
 
     !user
-      ? res.status(400).json({
+      ? res.status(401).json({
           error: "There is no user with this username or password",
         })
       : null;
@@ -29,12 +29,12 @@ const authenticate = async (req: Request, res: Response) => {
     });
 
     const token = jwt.sign(
-      { userRoles: userRoles[0].role_name },
+      { userRoles: userRoles[0].role_name, userId: user?.id },
       "super-secret-key",
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({
+    res.status(202).json({
       token: token,
       user: user,
     });
@@ -44,4 +44,41 @@ const authenticate = async (req: Request, res: Response) => {
   }
 };
 
-export default authenticate;
+export const register = async (req: Request, res: Response) => {
+  const newUser: users = req.body;
+
+  try {
+    const repeatedEmail = await prismaInstance.users.findFirst({
+      where: { email: newUser.email },
+    });
+
+    const repeatedUser = await prismaInstance.users.findFirst({
+      where: { username: newUser.username },
+    });
+
+    if (repeatedUser) {
+      return res.status(409).json({ error: "Username already exists" });
+    }
+    if (repeatedEmail) {
+      return res
+        .status(409)
+        .json({ error: "This email has already been taken" });
+    }
+
+    const createdUser = await prismaInstance.users.create({
+      data: newUser,
+    });
+
+    await prismaInstance.roles_by_user.create({
+      data: {
+        id: createdUser.id,
+        user_role_id: 4,
+      },
+    });
+
+    res.status(201).json({ success: "User created successfully" });
+  } catch (err) {
+    console.error("Query error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

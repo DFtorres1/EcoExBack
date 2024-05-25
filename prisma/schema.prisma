@@ -8,7 +8,7 @@ datasource db {
 }
 
 model communities {
-  communityId          Int                 @id @default(autoincrement())
+  communityId          Int                    @id @default(autoincrement())
   communityName        String
   description          String
   communitiesResources communitiesResources[]
@@ -16,7 +16,7 @@ model communities {
 }
 
 model communitiesResources {
-  commResId   Int      @id @default(autoincrement())
+  commResId   Int         @id @default(autoincrement())
   resourceId  Int
   communityId Int
   communities communities @relation(fields: [communityId], references: [communityId], onDelete: NoAction, onUpdate: NoAction)
@@ -24,7 +24,7 @@ model communitiesResources {
 }
 
 model exchangedResources {
-  exResId    Int    @id @default(autoincrement())
+  exResId    Int       @id @default(autoincrement())
   resourceId Int
   exchangeId Int
   exchanges  exchanges @relation(fields: [exchangeId], references: [exchangeId], onDelete: NoAction, onUpdate: NoAction)
@@ -32,7 +32,7 @@ model exchangedResources {
 }
 
 model exchanges {
-  exchangeId                                     Int               @id @default(autoincrement())
+  exchangeId                                     Int                  @id @default(autoincrement())
   offeredResource                                Int
   desiredResource                                Int
   exchangeDate                                   DateTime             @db.Timestamptz(6)
@@ -43,7 +43,7 @@ model exchanges {
 }
 
 model favorites {
-  favoriteId Int    @id @default(autoincrement())
+  favoriteId Int       @id @default(autoincrement())
   userId     Int
   resourceId Int
   resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
@@ -51,22 +51,22 @@ model favorites {
 }
 
 model followers {
-  followId                              Int @id @default(autoincrement())
+  followId                              Int   @id @default(autoincrement())
   followerUserId                        Int
   followedUserId                        Int
-  users_followers_followedUserIdTousers users  @relation("followers_followedUserIdTousers", fields: [followedUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users_followers_followerUserIdTousers users  @relation("followers_followerUserIdTousers", fields: [followerUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_followers_followedUserIdTousers users @relation("followers_followedUserIdTousers", fields: [followedUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_followers_followerUserIdTousers users @relation("followers_followerUserIdTousers", fields: [followerUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model images {
-  imageId    Int    @id @default(autoincrement())
+  imageId    Int       @id @default(autoincrement())
   resoruceId Int
-  imgage     Bytes
+  image      String
   resources  resources @relation(fields: [resoruceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model locationResources {
-  locResId   Int    @id @default(autoincrement())
+  locResId   Int       @id @default(autoincrement())
   resourceId Int
   locationId Int
   locations  locations @relation(fields: [locationId], references: [locationId], onDelete: NoAction, onUpdate: NoAction)
@@ -74,7 +74,7 @@ model locationResources {
 }
 
 model locations {
-  locationId        Int              @id @default(autoincrement())
+  locationId        Int                 @id @default(autoincrement())
   locationName      String
   latitude          Decimal             @db.Decimal
   longitude         Decimal             @db.Decimal
@@ -82,7 +82,7 @@ model locations {
 }
 
 model messages {
-  messageId                        Int   @id @default(autoincrement())
+  messageId                        Int      @id @default(autoincrement())
   senderId                         Int
   receiverId                       Int
   content                          String
@@ -92,7 +92,7 @@ model messages {
 }
 
 model notifications {
-  notificationId Int   @id @default(autoincrement())
+  notificationId Int      @id @default(autoincrement())
   userId         Int
   message        String
   sentDate       DateTime @db.Timestamptz(6)
@@ -101,7 +101,7 @@ model notifications {
 }
 
 model reports {
-  reportId    Int    @id @default(autoincrement())
+  reportId    Int       @id @default(autoincrement())
   userId      Int
   resourceId  Int
   reason      String
@@ -119,13 +119,16 @@ model cart {
 }
 
 model resources {
-  resourceId                                     Int                 @id @default(autoincrement())
+  resourceId                                     Int                    @id @default(autoincrement())
   userId                                         Int
   resourceName                                   String
+  resource_name_data                             String
   description                                    String
   category                                       String
   state                                          String
   available                                      Boolean
+  price                                          Decimal                @db.Decimal
+  offer_price                                    Decimal?               @db.Decimal
   communitiesResources                           communitiesResources[]
   exchangedResources                             exchangedResources[]
   exchanges_exchanges_desiredResourceToresources exchanges[]            @relation("exchanges_desiredResourceToresources")
@@ -140,7 +143,7 @@ model resources {
 }
 
 model review {
-  reviewId   Int    @id @default(autoincrement())
+  reviewId   Int       @id @default(autoincrement())
   userId     Int
   exchangeId Int
   stars      Int
@@ -150,15 +153,15 @@ model review {
 }
 
 model roles_by_user {
-  rbu_id       Int    @id(map: "rolesByUser_pkey") @default(autoincrement())
-  id      Int
+  rbu_id       Int       @id(map: "rolesByUser_pkey") @default(autoincrement())
+  id           Int
   user_role_id Int
   users        users     @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rolesByUser_userId_fkey")
   user_role    user_role @relation(fields: [user_role_id], references: [user_role_id], onDelete: NoAction, onUpdate: NoAction, map: "rolesByUser_userRoleId_fkey")
 }
 
 model tagResources {
-  tagResId   Int    @id @default(autoincrement())
+  tagResId   Int       @id @default(autoincrement())
   tagId      Int
   resourceId Int
   resources  resources @relation(fields: [resourceId], references: [resourceId], onDelete: NoAction, onUpdate: NoAction)
@@ -166,13 +169,13 @@ model tagResources {
 }
 
 model tags {
-  tagId        Int         @id @default(autoincrement())
+  tagId        Int            @id @default(autoincrement())
   tagName      String
   tagResources tagResources[]
 }
 
 model userCommunity {
-  userCommunityId Int      @id @default(autoincrement())
+  userCommunityId Int         @id @default(autoincrement())
   userId          Int
   communityId     Int
   communities     communities @relation(fields: [communityId], references: [communityId], onDelete: NoAction, onUpdate: NoAction)
@@ -180,7 +183,7 @@ model userCommunity {
 }
 
 model user_role {
-  user_role_id  Int          @id(map: "userRole_pkey") @default(autoincrement())
+  user_role_id  Int             @id(map: "userRole_pkey") @default(autoincrement())
   role_name     String
   roles_by_user roles_by_user[]
 }
@@ -192,25 +195,26 @@ model Post {
   title     String   @db.VarChar(255)
   content   String?
   published Boolean  @default(false)
-  author    users     @relation(fields: [authorId], references: [id])
+  author    users    @relation(fields: [authorId], references: [id])
   authorId  Int
 }
 
 model Profile {
   id     Int     @id @default(autoincrement())
   bio    String?
-  user   users    @relation(fields: [userId], references: [id])
+  user   users   @relation(fields: [userId], references: [id])
   userId Int     @unique
 }
+
 model users {
-  id                                        Int          @id(map: "user_pkey") @default(autoincrement())
+  id                                        Int             @id(map: "user_pkey") @default(autoincrement())
   name                                      String
   email                                     String
   username                                  String
   password                                  String
   register_date                             DateTime        @db.Date
-  posts   Post[]
-  profile Profile?
+  posts                                     Post[]
+  profile                                   Profile?
   favorites                                 favorites[]
   followers_followers_followedUserIdTousers followers[]     @relation("followers_followedUserIdTousers")
   followers_followers_followerUserIdTousers followers[]     @relation("followers_followerUserIdTousers")
@@ -222,5 +226,5 @@ model users {
   review                                    review[]
   roles_by_user                             roles_by_user[]
   userCommunity                             userCommunity[]
-  cart                                      cart []
+  cart                                      cart[]
 }

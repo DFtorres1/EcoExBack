@@ -3,7 +3,7 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser"
 import cors from "cors";
-import router from "./routes/routes";
+import mainRouter from "./routes/mainRouter";
 
 export const prismaInstance = new PrismaClient()
 const app = express()
@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors({
     origin: "*"
 }))
-app.use(router)
+app.use(mainRouter)
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.listen(port, () => {console.log('listening on port ' + port)})
